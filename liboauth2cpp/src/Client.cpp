@@ -12,6 +12,7 @@
 #include "oauth2cpp/Client.hpp"
 #include "oauth2cpp/HttpClient.hpp"
 #include "oauth2cpp/HttpRequest.hpp"
+#include "oauth2cpp/TokenFactory.hpp"
 
 #include <memory>
 #include <network/uri.hpp>
@@ -59,6 +60,58 @@ namespace oauth2 {
 
   void Client::handleAccessTokenResponse(const HttpResponse &response) const
   {
+    TokenInfo* tokenInfo = TokenFactory::fromJson(response.readAll());
+    this->tokenStorage->writeTokenInfo(configuration->getClientId(),std::unique_ptr<TokenInfo>(tokenInfo));
+  }
+
+  bool Client::createRefreshTokenRequest(HttpRequest& request, std::string& data) const
+  {
+    auto clientId = configuration->getClientId();
+    if(tokenStorage->hasRefreshToken(clientId))
+      {
+        network::uri requestUri(configuration->getTokenEndpoint());
+        request.setUri(requestUri);
+        request.setHeader("Content-Type","application/x-www-form-urlencoded");
+
+        data.assign("client_id=");
+        data.append(clientId)
+            .append("&client_secret=").append(configuration->getClientSecret())
+            .append("&refresh_token=").append(tokenStorage->getRefreshToken(clientId))
+            .append("&grant_type=refresh_token");
+
+        return true;
+      }
+
+    return false;
+
+  }
+
+  void Client::handleRefreshTokenResponse(const HttpResponse &response) const
+  {
+    std::unique_ptr<TokenInfo> const& tokenInfo = this->tokenStorage->getTokenInfo(configuration->getClientId());
+    TokenFactory::updateFromJson(tokenInfo,response.readAll());
+  }
+
+  bool Client::authorize(HttpRequest &request) const
+  {
+    auto clientId = configuration->getClientId();
+    if(tokenStorage->hasAccessToken(clientId))
+      {
+        request.setHeader("Authorization","Bearer "+tokenStorage->getAccessToken(clientId));
+        return true;
+      }
+
+    return false;
+  }
+
+  void Client::setTokenStorage(TokenStorage *storage)
+  {
+    this->tokenStorage = storage;
+  }
+
+  TokenStorage *Client::getTokenStorage() const
+  {
+    return this->tokenStorage;
   }
 
 } // namespace oauth2

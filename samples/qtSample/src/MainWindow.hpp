@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include "oauth2cpp/DefaultStorage.hpp"
+
 #include <QMainWindow>
 
 namespace Ui {
@@ -24,6 +26,8 @@ public:
 
 protected slots:
   void onClickAuthenticate();
+  void onClickRefresh();
+  void onClickUserInfo();
   void onWebViewTitleChanged(QString title);
 
   void onNetworkRequestFinished(QNetworkReply* reply);
@@ -34,6 +38,7 @@ private:
   Ui::MainWindow *ui = nullptr;
   oauth2::ClientConfiguration *oauthConfig = nullptr;
   oauth2::Client *oauthClient = nullptr;
+  oauth2::DefaultStorage tokenStorage;
   QNetworkAccessManager *netAccessMgr = nullptr;
 };
 
