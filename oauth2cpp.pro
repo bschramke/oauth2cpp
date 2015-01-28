@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     liboauth2cpp \
-    samples 
+    samples \
+    tests.pro
