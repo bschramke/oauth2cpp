@@ -3,6 +3,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
+TARGET = oauth2cpp-test
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \

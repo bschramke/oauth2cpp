@@ -1,2 +1,2 @@
-oauth2cpp - OAuth2 library for C++
+oauth2cpp - OAuth2 client library for C++
 ====

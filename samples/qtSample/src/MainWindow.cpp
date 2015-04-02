@@ -1,10 +1,10 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
-#include "QtHttpRequest.hpp"
-#include "QtHttpResponse.hpp"
 
 #include "oauth2cpp/Client.hpp"
 #include "oauth2cpp/ClientConfiguration.hpp"
+#include "oauth2cpp/qt/QtHttpRequest.hpp"
+#include "oauth2cpp/qt/QtHttpResponse.hpp"
 
 #include <network/uri.hpp>
 #include <QDebug>
@@ -71,7 +71,7 @@ void MainWindow::onClickAuthenticate()
 void MainWindow::onClickRefresh()
 {
   QNetworkRequest qnRequest;
-  QtHttpRequest request(&qnRequest);
+  oauth2::QtHttpRequest request(&qnRequest);
   std::string requestData;
   bool success = oauthClient->createRefreshTokenRequest(request,requestData);
 
@@ -94,7 +94,7 @@ void MainWindow::onClickRefresh()
 void MainWindow::onClickUserInfo()
 {
   QNetworkRequest qnRequest(QUrl("https://www.googleapis.com/oauth2/v2/userinfo"));
-  QtHttpRequest request(&qnRequest);
+  oauth2::QtHttpRequest request(&qnRequest);
   bool authorized = oauthClient->authorize(request);
   if(!authorized)
     {
@@ -117,7 +117,7 @@ void MainWindow::onWebViewTitleChanged(QString title)
       ui->textEdit->append("Success! Authorization code = "+auth_code);
 
       QNetworkRequest qnRequest;
-      QtHttpRequest request(&qnRequest);
+      oauth2::QtHttpRequest request(&qnRequest);
       std::string requestData;
       oauthClient->createAccessTokenRequest(auth_code.toStdString(),request,requestData);
 
@@ -144,7 +144,7 @@ void MainWindow::onNetworkRequestFinished(QNetworkReply *reply)
   auto request = reply->request();
   auto requestType = request.attribute((QNetworkRequest::Attribute)REQUEST_TYPE);
 
-  QtHttpResponse response(reply);
+  oauth2::QtHttpResponse response(reply);
   QByteArray result;
   switch(requestType.toInt())
     {
