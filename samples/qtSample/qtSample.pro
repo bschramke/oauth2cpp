@@ -13,15 +13,9 @@ DEFINES += GOOGLE_CLIENT_SECRET=\\\"YOUR GOOGLE CLIENT SECRET HERE\\\"
 SOURCES += \
         src/main.cpp\
         src/MainWindow.cpp \
-        src/QtHttpRequest.cpp \
-        src/QtHttpClient.cpp \
-        src/QtHttpResponse.cpp
 
 HEADERS  += \
         src/MainWindow.hpp \
-        src/QtHttpRequest.hpp \
-        src/QtHttpClient.hpp \
-        src/QtHttpResponse.hpp
 
 FORMS    += \
         ui/MainWindow.ui
@@ -34,3 +28,10 @@ else:unix: LIBS += -L$$OUT_PWD/../../liboauth2cpp/ -loauth2cpp
 
 INCLUDEPATH += $$PWD/../../liboauth2cpp/include
 DEPENDPATH += $$PWD/../../liboauth2cpp
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../liboauth2cpp-qt/release/ -loauth2cpp-qt
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../liboauth2cpp-qt/debug/ -loauth2cpp-qt
+else:unix: LIBS += -L$$OUT_PWD/../../liboauth2cpp-qt/ -loauth2cpp-qt
+
+INCLUDEPATH += $$PWD/../../liboauth2cpp-qt/include
+DEPENDPATH += $$PWD/../../liboauth2cpp-qt

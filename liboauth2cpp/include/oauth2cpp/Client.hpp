@@ -19,6 +19,8 @@
 #include "oauth2cpp/HttpResponse.hpp"
 #include "oauth2cpp/TokenStorage.hpp"
 
+#include <set>
+
 namespace network{
   class uri;
 }
@@ -30,8 +32,9 @@ namespace oauth2{
     explicit Client(const ClientConfiguration* configuration);
     ~Client();
 
-    const network::uri getAuthorizationRequestUri()const;
-    void createAccessTokenRequest(const std::string code, HttpRequest &request, std::string &data) const;
+    const network::uri getAuthorizationRequestUri(const std::set<std::string>& scopeSet)const;
+    const network::uri getAuthorizationRequestUri(const std::string& scope)const;
+    void createAccessTokenRequest(const std::string &code, HttpRequest &request, std::string &data) const;
     void handleAccessTokenResponse(const HttpResponse &response) const;
     bool createRefreshTokenRequest(HttpRequest &request, std::string &data) const;
     void handleRefreshTokenResponse(const HttpResponse &response) const;

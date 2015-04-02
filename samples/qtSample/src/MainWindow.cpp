@@ -62,7 +62,7 @@ void MainWindow::initConnections()
 void MainWindow::onClickAuthenticate()
 {
   ui->textEdit->append("request Authentication with URI");
-  auto authUri = oauthClient->getAuthorizationRequestUri();
+  auto authUri = oauthClient->getAuthorizationRequestUri((std::set<std::string>){"https://www.googleapis.com/auth/plus.me","https://www.googleapis.com/auth/userinfo.profile"});
   ui->textEdit->append((authUri.string()+")").c_str());
   ui->webView->load(QUrl(authUri.string().c_str()));
 

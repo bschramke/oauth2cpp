@@ -30,12 +30,24 @@ namespace oauth2 {
   {
   }
 
-  const network::uri Client::getAuthorizationRequestUri() const
+  const network::uri Client::getAuthorizationRequestUri(const std::set<std::string> &scopeSet) const
+  {
+    std::string scopeValue;
+    for(auto scope:scopeSet)
+      {
+        if(!scopeValue.empty()) scopeValue += ' ';
+        scopeValue += scope;
+      }
+
+    return getAuthorizationRequestUri(scopeValue);
+  }
+
+  const network::uri Client::getAuthorizationRequestUri(const std::string& scope) const
   {
     network::uri requestUri(configuration->getAuthorizationEndpoint());
     network::uri_builder uriBuilder(requestUri);
 
-    uriBuilder.query("scope","https://www.googleapis.com/auth/plus.me")
+    uriBuilder.query("scope",scope)
         .query("redirect_uri",configuration->getRedirectUri())
         .query("response_type","code")
         .query("client_id",configuration->getClientId());
@@ -44,7 +56,7 @@ namespace oauth2 {
 
   }
 
-  void Client::createAccessTokenRequest(const std::string code, HttpRequest& request, std::string& data) const
+  void Client::createAccessTokenRequest(const std::string& code, HttpRequest& request, std::string& data) const
   {
     network::uri requestUri(configuration->getTokenEndpoint());
     request.setUri(requestUri);
