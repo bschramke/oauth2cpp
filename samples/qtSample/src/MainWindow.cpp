@@ -30,15 +30,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   ui->setupUi(this);
 
-  oauthConfig = new oauth2::ClientConfiguration(GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET);
-  oauthConfig->setAuthorizationEndpoint("https://accounts.google.com/o/oauth2/auth");
-  oauthConfig->setTokenEndpoint("https://www.googleapis.com/oauth2/v3/token");
-  oauthConfig->setRedirectUri("urn:ietf:wg:oauth:2.0:oob");
+  oauthConfig = new oauth2::ClientConfiguration(OAUTH_CLIENT_ID,OAUTH_CLIENT_SECRET);
+  oauthConfig->setAuthorizationEndpoint(ui->edit_auth_endpoint->text().toStdString());
+  oauthConfig->setTokenEndpoint(ui->edit_redirect_uri->text().toStdString());
+  oauthConfig->setRedirectUri(ui->edit_token_endpoint->text().toStdString());
 
   this->netAccessMgr = new QNetworkAccessManager(this);
   oauthClient = new oauth2::Client(oauthConfig);
   oauthClient->setTokenStorage(&tokenStorage);
 
+  updateButtonStates();
   initConnections();
 }
 
@@ -48,6 +49,24 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
+void MainWindow::onChangeAuthEndpoint(QString value)
+{
+  oauthConfig->setAuthorizationEndpoint(value.toStdString());
+  updateButtonStates();
+}
+
+void MainWindow::onChangeTokenEndpoint(QString value)
+{
+  oauthConfig->setTokenEndpoint(value.toStdString());
+  updateButtonStates();
+}
+
+void MainWindow::onChangeRedirectUri(QString value)
+{
+  oauthConfig->setRedirectUri(value.toStdString());
+  updateButtonStates();
+}
+
 void MainWindow::initConnections()
 {
   connect( ui->authButton, SIGNAL(clicked()), this, SLOT(onClickAuthenticate()) );
@@ -55,8 +74,38 @@ void MainWindow::initConnections()
   connect( ui->userInfoButton, SIGNAL(clicked()), this, SLOT(onClickUserInfo()) );
   connect(ui->webView, SIGNAL(titleChanged(QString)), SLOT(onWebViewTitleChanged(QString)));
 
+  connect( ui->edit_auth_endpoint, SIGNAL(textChanged(QString)), this, SLOT(onChangeAuthEndpoint(QString)) );
+  connect( ui->edit_token_endpoint, SIGNAL(textChanged(QString)), this, SLOT(onChangeTokenEndpoint(QString)) );
+  connect( ui->edit_redirect_uri, SIGNAL(textChanged(QString)), this, SLOT(onChangeRedirectUri(QString)) );
+
   connect(netAccessMgr,SIGNAL(finished(QNetworkReply*)),
-              this,SLOT(onNetworkRequestFinished(QNetworkReply*)));
+          this,SLOT(onNetworkRequestFinished(QNetworkReply*)));
+}
+
+bool MainWindow::checkOAuthConfig()
+{
+  bool authEndpointOk = false;
+  bool tokenEndpointOk = false;
+  bool redirectUriOk = false;
+
+  QString value = ui->edit_auth_endpoint->text();
+  authEndpointOk = (!value.isNull() && !value.isEmpty());
+
+  value = ui->edit_token_endpoint->text();
+  tokenEndpointOk = (!value.isNull() && !value.isEmpty());
+
+  value = ui->edit_redirect_uri->text();
+  redirectUriOk = (!value.isNull() && !value.isEmpty());
+
+  return (authEndpointOk && tokenEndpointOk && redirectUriOk);
+}
+
+void MainWindow::updateButtonStates()
+{
+  bool oauthConfigOk = checkOAuthConfig();
+
+  ui->authButton->setEnabled(oauthConfigOk);
+
 }
 
 void MainWindow::onClickAuthenticate()

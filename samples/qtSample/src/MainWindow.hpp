@@ -25,6 +25,9 @@ public:
   ~MainWindow();
 
 protected slots:
+  void onChangeAuthEndpoint(QString value);
+  void onChangeTokenEndpoint(QString value);
+  void onChangeRedirectUri(QString value);
   void onClickAuthenticate();
   void onClickRefresh();
   void onClickUserInfo();
@@ -34,6 +37,8 @@ protected slots:
 
 private:
   void initConnections();
+  void updateButtonStates();
+  bool checkOAuthConfig();
 
   Ui::MainWindow *ui = nullptr;
   oauth2::ClientConfiguration *oauthConfig = nullptr;

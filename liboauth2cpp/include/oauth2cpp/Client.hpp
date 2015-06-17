@@ -40,6 +40,7 @@ namespace oauth2{
     void handleRefreshTokenResponse(const HttpResponse &response) const;
 
     bool authorize(HttpRequest &request) const;
+    bool authorized() const;
 
     void setTokenStorage(TokenStorage* storage);
     TokenStorage *getTokenStorage() const;

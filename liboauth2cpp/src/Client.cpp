@@ -116,6 +116,12 @@ namespace oauth2 {
     return false;
   }
 
+  bool Client::authorized() const
+  {
+    auto clientId = configuration->getClientId();
+    return tokenStorage->hasAccessToken(clientId);
+  }
+
   void Client::setTokenStorage(TokenStorage *storage)
   {
     this->tokenStorage = storage;
