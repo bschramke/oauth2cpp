@@ -1,0 +1,24 @@
+/**
+@mainpage OAuth2 Client library for C++
+
+@section OAuth2CppContent Content
+
+- @ref OAuth2CppForeword
+- @ref OAuth2CppExtLibs
+- @ref OAuth2CppCompiling
+
+@section OAuth2CppForeword Foreword
+
+Please note that this is a very early work in progress version of OAuth2Cpp.
+
+@section OAuth2CppExtLibs 3rd Party Lib and Licensing Information
+
+OAuth2Cpp depends on the following 3rd Party Open Source libraries:
+
+- jsonxx (https://github.com/hjiang/jsonxx, license: MIT (https://raw.githubusercontent.com/hjiang/jsonxx/master/LICENSE))
+- C++ Network URI (https://github.com/cpp-netlib/uri, license: BSL-1.0(http://cpp-netlib.org/LICENSE_1_0.txt))
+
+@section OAuth2CppCompiling How To Compile
+
+Nothing to see here at the moment.
+*/

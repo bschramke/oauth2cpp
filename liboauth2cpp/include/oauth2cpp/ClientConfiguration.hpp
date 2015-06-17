@@ -1,8 +1,6 @@
 /**
- * @brief
  * @file ClientConfiguration.hpp
- * @author Björn Schramke <schramke@fh-brandenburg.de>
- * @since 0.0.1
+ * @since 0.1
  *
  * Copyright 2015 oauth2cpp Contributors. All rights reserved.
  * See CONTRIBUTORS file for full list.
@@ -19,6 +17,13 @@
 
 namespace oauth2{
   
+  /**
+   * @brief The ClientConfiguration class
+   *
+   * @author Björn Schramke <schramke@fh-brandenburg.de>
+   *
+   * @since 0.1
+   */
   class OAUTH2CPP_API ClientConfiguration
   {
   public:

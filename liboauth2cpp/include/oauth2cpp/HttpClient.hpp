@@ -1,8 +1,6 @@
 /**
- * @brief
  * @file HttpClient.hpp
- * @author Björn Schramke <schramke@fh-brandenburg.de>
- * @since 0.0.1
+ * @since 0.1
  *
  * Copyright 2015 oauth2cpp Contributors. All rights reserved.
  * See CONTRIBUTORS file for full list.
@@ -25,6 +23,14 @@ namespace network{
 namespace oauth2{
 
   class Client;
+
+  /**
+   * @brief The HttpClient class
+   *
+   * @author Björn Schramke <schramke@fh-brandenburg.de>
+   *
+   * @since 0.1
+   */
   class OAUTH2CPP_API HttpClient
   {
   public:

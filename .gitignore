@@ -44,3 +44,7 @@ Thumbs.db
 
 # QtCreator generated files
 *.pro.user
+
+# DoxyGen generated files
+*.tag
+doc/apidoc/

@@ -1,8 +1,6 @@
 /**
- * @brief
  * @file TokenInfo.hpp
- * @author Björn Schramke <schramke@fh-brandenburg.de>
- * @since 0.0.1
+ * @since 0.1
  *
  * Copyright 2015 oauth2cpp Contributors. All rights reserved.
  * See CONTRIBUTORS file for full list.
@@ -18,7 +16,13 @@
 #include <string>
 
 namespace oauth2{
-  
+  /**
+   * @brief The TokenInfo class
+   *
+   * @author Björn Schramke <schramke@fh-brandenburg.de>
+   *
+   * @since 0.1
+   */
   class OAUTH2CPP_API TokenInfo
   {
   public:
