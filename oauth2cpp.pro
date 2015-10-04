@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
+    externals/cpp-netlib-uri \
     liboauth2cpp \
     liboauth2cpp-qt \
     samples \
