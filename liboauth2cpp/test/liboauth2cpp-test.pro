@@ -1,7 +1,6 @@
 TEMPLATE = app
 CONFIG += console
-CONFIG -= app_bundle
-CONFIG -= qt
+CONFIG -= app_bundle qt
 
 TARGET = oauth2cpp-test
 QMAKE_CXXFLAGS += -std=c++11
@@ -16,8 +15,9 @@ HEADERS += \
     TokenInfoTest.hpp \
     TokenStorageTest.hpp
 
-unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += cppunit
+unix{
+    LIBS += -lcppunit
+}
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../release/ -loauth2cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../debug/ -loauth2cpp

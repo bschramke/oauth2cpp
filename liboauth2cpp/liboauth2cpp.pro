@@ -9,10 +9,11 @@ DEFINES += OAUTH2CPP_LIBRARY
 QMAKE_CXXFLAGS += -std=c++11
 
 INCLUDEPATH += $$PWD/include
-INCLUDEPATH += $$PWD/externals/jsonxx
+INCLUDEPATH += $$PWD/../externals/jsonxx
+INCLUDEPATH += $$PWD/../externals/cpp-netlib-uri/src
 
 SOURCES += \
-    externals/jsonxx/jsonxx.cc \
+    ../externals/jsonxx/jsonxx.cc \
     src/ClientConfiguration.cpp \
     src/Client.cpp \
     src/BearerToken.cpp \
@@ -20,7 +21,7 @@ SOURCES += \
     src/TokenFactory.cpp
 
 HEADERS += \
-    externals/jsonxx/jsonxx.h \
+    ../externals/jsonxx/jsonxx.h \
     include/oauth2cpp/Version.hpp \
     include/oauth2cpp/OAuth2.hpp \
     include/oauth2cpp/ClientConfiguration.hpp \
@@ -34,5 +35,8 @@ HEADERS += \
     include/oauth2cpp/HttpResponse.hpp \
     include/oauth2cpp/TokenFactory.hpp
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../externals/cpp-netlib-uri/release/ -lnetwork-uri
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../externals/cpp-netlib-uri/debug/ -lnetwork-uri
+else:unix: LIBS += -L$$OUT_PWD/../externals/cpp-netlib-uri/ -lnetwork-uri
 
-unix|win32: LIBS += -L/usr/local/lib -lnetwork-uri
+unix|win32: LIBS += -lboost_system -lboost_filesystem

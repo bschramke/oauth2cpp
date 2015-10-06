@@ -20,7 +20,7 @@ HEADERS  += \
 FORMS    += \
         ui/MainWindow.ui
 
-unix|win32: LIBS += -L/usr/local/lib -lnetwork-uri -lboost_system -lboost_filesystem
+unix|win32: LIBS += -lboost_system -lboost_filesystem
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../liboauth2cpp/release/ -loauth2cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../liboauth2cpp/debug/ -loauth2cpp
@@ -35,3 +35,14 @@ else:unix: LIBS += -L$$OUT_PWD/../../liboauth2cpp-qt/ -loauth2cpp-qt
 
 INCLUDEPATH += $$PWD/../../liboauth2cpp-qt/include
 DEPENDPATH += $$PWD/../../liboauth2cpp-qt
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../externals/cpp-netlib-uri/release/ -lnetwork-uri
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../externals/cpp-netlib-uri/debug/ -lnetwork-uri
+else:unix: LIBS += -L$$OUT_PWD/../../externals/cpp-netlib-uri/ -lnetwork-uri
+
+INCLUDEPATH += $$PWD/../../externals/cpp-netlib-uri/src
+DEPENDPATH += $$PWD/../../externals/cpp-netlib-uri
+
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../externals/cpp-netlib-uri/release/network-uri.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../externals/cpp-netlib-uri/debug/network-uri.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../externals/cpp-netlib-uri/libnetwork-uri.a
