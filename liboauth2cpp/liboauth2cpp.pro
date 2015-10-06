@@ -10,7 +10,7 @@ QMAKE_CXXFLAGS += -std=c++11
 
 INCLUDEPATH += $$PWD/include
 INCLUDEPATH += $$PWD/../externals/jsonxx
-INCLUDEPATH += $$PWD/../externals/cpp-netlib-uri
+INCLUDEPATH += $$PWD/../externals/cpp-netlib-uri/src
 
 SOURCES += \
     ../externals/jsonxx/jsonxx.cc \
@@ -38,3 +38,5 @@ HEADERS += \
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../externals/cpp-netlib-uri/release/ -lnetwork-uri
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../externals/cpp-netlib-uri/debug/ -lnetwork-uri
 else:unix: LIBS += -L$$OUT_PWD/../externals/cpp-netlib-uri/ -lnetwork-uri
+
+unix|win32: LIBS += -lboost_system -lboost_filesystem

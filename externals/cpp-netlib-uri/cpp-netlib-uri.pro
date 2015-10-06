@@ -37,4 +37,4 @@ HEADERS += \
     src/detail/uri_parse_authority.hpp \
     src/detail/uri_normalize.hpp
 
-#unix|win32: LIBS += -lboost_system -l boost_filesystem
+unix|win32: LIBS += -lboost_system -l boost_filesystem
